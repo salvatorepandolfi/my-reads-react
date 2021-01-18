@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types"
-import * as BookService from '../service/BooksService'
 import Book from "./Book";
 
 class Shelf extends Component {
