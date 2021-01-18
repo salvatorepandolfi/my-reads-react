@@ -2,16 +2,15 @@ import * as BookAPI from './BooksAPI'
 import React from "react";
 
 const marshal = (book) => {
-    const thumbnail = book.imageLink && book.imageLink.thumbnail ? book.imageLink.thumbnail :
-        book.imageLink && book.imageLink.smallThumbnail ? book.imageLink.smallThumbnail : 'https://via.placeholder.com/128x192.png'
-    const toreturn = {
+    const thumbnail = book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail :
+        (book.imageLinks && book.imageLinks.smallThumbnail ? book.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x192.png')
+    return {
         id: book.id,
         title: book.title,
         authors: book.authors.join(', '),
         shelf: book.shelf,
         backgroundImage: thumbnail
     }
-    return toreturn
 }
 
 const arrayMarshall = (books) => {
@@ -41,11 +40,16 @@ export const search = async (query) => {
     return arrayMarshall(books)
 }
 
-export const availableShelf = () => {
-    return [
-        {key: 'currentlyReading', name: 'Currently Reading'},
-        {key: 'wantToRead', name: 'Want to Read'},
-        {key: 'read', name: 'Read'},
-        {key: 'none', name: 'None'}
-    ]
-}
+
+export const printableShelfs = [
+    {key: 'currentlyReading', name: 'Currently Reading'},
+    {key: 'wantToRead', name: 'Want to Read'},
+    {key: 'read', name: 'Read'},
+]
+
+export const availableShelfs = [
+    ...printableShelfs,
+    {key: 'none', name: 'None'}
+]
+
+
