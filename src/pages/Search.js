@@ -13,6 +13,8 @@ class Search extends Component {
     state = {
         books: [],
         filter: '',
+        typing: false,
+        initSearch: true,
         searchTimeout: 0
     }
 
@@ -24,10 +26,12 @@ class Search extends Component {
 
             this.setState({
                 filter: query,
+                typing: true,
+                initSearch: false,
                 searchTimeout: setTimeout(() => {
                     this.books = BookService.search(this.state.filter)
                         .then((books) => {
-                            this.setState({books: books})
+                            this.setState({books: books, typing: false})
                         })
                 }, 500)
 
@@ -35,9 +39,15 @@ class Search extends Component {
         }
     }
 
+    message = () => {
+        const {books, typing, initSearch} = this.state
+        return initSearch ? 'Start typing to search...' : typing ? 'Searching...' : books.length === 0 && 'No results found'
+    }
+
     render() {
         const {books} = this.state
         const {changeShelf} = this.props
+
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -62,6 +72,7 @@ class Search extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
+                    <div className='message-box'>{this.message()}</div>
                     <BooksGrid books={books} changeShelf={changeShelf}/>
                 </div>
             </div>
