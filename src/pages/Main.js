@@ -6,24 +6,12 @@ import Shelf from "../components/Shelf";
 
 class Main extends Component {
     static propTypes = {
-        changeShelf: PropsTypes.func.isRequired
-    }
-    state = {
-        books: []
-    }
-
-    async componentDidMount() {
-        try {
-            const books = await BookService.getAll()
-            this.setState({books: books})
-        } catch (e) {
-
-        }
+        changeShelf: PropsTypes.func.isRequired,
+        books: PropsTypes.array.isRequired
     }
 
     render() {
-        const {books} = this.state
-        const {changeShelf} = this.props
+        const {books, changeShelf} = this.props
         return (
             <div className="list-books">
                 <div className="list-books-title">

@@ -21,7 +21,8 @@ class Book extends Component {
                             backgroundImage: `url("${book.backgroundImage}")`
                         }}></div>
                         <div className="book-shelf-changer">
-                            <select value={book.shelf}>
+                            <select value={book.shelf}
+                                    onChange={(event) => (changeShelf(book, event.target.value))}>
                                 <option value="move" disabled>Move to...</option>
                                 {availableShelfs.map((shelf) => (
                                     <option key={shelf.key} value={shelf.key}>{shelf.name}</option>

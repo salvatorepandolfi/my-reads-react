@@ -10,7 +10,7 @@ const marshal = (book) => {
         id: book.id,
         title: book.title,
         authors: authors,
-        shelf: book.shelf,
+        shelf: book.shelf ? book.shelf : 'none',
         backgroundImage: thumbnail
     }
 }
