@@ -4,10 +4,12 @@ import React from "react";
 const marshal = (book) => {
     const thumbnail = book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail :
         (book.imageLinks && book.imageLinks.smallThumbnail ? book.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x192.png')
+
+    const authors = book.authors ? book.authors.join(', ') : ''
     return {
         id: book.id,
         title: book.title,
-        authors: book.authors.join(', '),
+        authors: authors,
         shelf: book.shelf,
         backgroundImage: thumbnail
     }
@@ -15,8 +17,10 @@ const marshal = (book) => {
 
 const arrayMarshall = (books) => {
     const marshalled = []
-    for (let book of books) {
-        marshalled.push(marshal(book))
+    if (books.length > 0) {
+        for (let book of books) {
+            marshalled.push(marshal(book))
+        }
     }
     return marshalled
 }

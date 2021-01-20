@@ -5,6 +5,9 @@ import * as BookService from "../service/BooksService";
 import Shelf from "../components/Shelf";
 
 class Main extends Component {
+    static propTypes = {
+        changeShelf: PropsTypes.func.isRequired
+    }
     state = {
         books: []
     }
@@ -20,6 +23,7 @@ class Main extends Component {
 
     render() {
         const {books} = this.state
+        const {changeShelf} = this.props
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -31,8 +35,8 @@ class Main extends Component {
                             (<Shelf
                                 key={shelf.key}
                                 shelf={shelf}
-                                books={books.filter((book)=>(book.shelf === shelf.key))}
-                                changeShelf={() => {}}
+                                books={books.filter((book) => (book.shelf === shelf.key))}
+                                changeShelf={changeShelf}
                             />)
                         )}
                     </div>
