@@ -1,5 +1,4 @@
 import * as BookAPI from './BooksAPI'
-import React from "react";
 
 const marshal = (book) => {
     const thumbnail = book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail :
@@ -40,10 +39,19 @@ export const update = async (book, shelf) => {
 }
 
 export const search = async (query) => {
-    const books = await BookAPI.search(query)
+    let books = await BookAPI.search(query)
+    let booksInShelfs = await getAll()
+    booksInShelfs = booksInShelfs.map(book => ({id: book.id, shelf: book.shelf}))
+    books.length>0 && books.map(book => {
+        let shelf = 'none'
+        const found = booksInShelfs.find(b => b.id === book.id)
+        if (found)
+            shelf = found.shelf
+        book.shelf = shelf
+        return book
+    })
     return arrayMarshall(books)
 }
-
 
 export const printableShelfs = [
     {key: 'currentlyReading', name: 'Currently Reading'},

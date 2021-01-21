@@ -36,6 +36,8 @@ class Search extends Component {
                 }, 500)
 
             })
+        } else {
+            this.setState({books: [], initSearch: true})
         }
     }
 

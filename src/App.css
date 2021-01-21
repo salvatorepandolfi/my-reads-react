@@ -196,3 +196,18 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+.notification {
+  position: fixed;
+  width: 100%;
+  z-index: 0;
+  bottom: 0;
+  text-align: center;
+}
+.notification .message {
+  padding: 10px;
+  margin: 0 auto;
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  background-color: #2e7d32;
+  color: white;
+}

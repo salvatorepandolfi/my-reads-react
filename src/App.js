@@ -3,13 +3,14 @@ import './App.css'
 import {Route} from 'react-router-dom'
 import Main from "./pages/Main";
 import Search from "./pages/Search";
-import {update} from './service/BooksService'
+import {availableShelfs, update} from './service/BooksService'
 import * as BookService from "./service/BooksService";
 
 class BooksApp extends React.Component {
 
     state = {
-        books: []
+        books: [],
+        message: ""
     }
 
     async componentDidMount() {
@@ -21,21 +22,36 @@ class BooksApp extends React.Component {
         const updated = await update(book, shelf)
         if (updated) {
             const books = await BookService.getAll()
-            this.setState({books: books})
+            this.setState({books: books}, () => (this.changeShelfMessage(book.title, shelf)))
         }
     }
 
+    changeShelfMessage = (bookTitle, shelfKey) => {
+        let message = `"${bookTitle}" removed from MyReads.`
+        if (shelfKey !== 'none') {
+            const shelf = availableShelfs.find(s => s.key === shelfKey)
+            message = `"${bookTitle}" placed on ${shelf.name} shelf.`
+        }
+        this.setState({message}, () => {
+            setTimeout(() => {
+                this.setState({message: ''})
+            }, 3500)
+        })
+    }
+
     render() {
-        const {books} = this.state
+        const {books, message} = this.state
         return (
             <div className="app">
-                {/*{message !== '' && (<div className="notification">{message}</div>)}*/}
                 <Route path='/' exact>
                     <Main changeShelf={this.changeShelf} books={books}/>
                 </Route>
                 <Route path='/search'>
                     <Search changeShelf={this.changeShelf}/>
                 </Route>
+                {message !== '' && (<div className="notification">
+                    <div className='message'>{message}</div>
+                </div>)}
             </div>
         )
     }
